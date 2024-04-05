@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 # proxytesting - updated from the VM
-Updating from command prompt 
+Editing from my workstation
+
+Updating from test server
+
