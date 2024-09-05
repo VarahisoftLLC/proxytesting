@@ -1,0 +1,71 @@
+Applications for demo:
+----------------------
+a) EDDRE:
+      Code: https://github.nfcu.net/deploy-mgmt-test-org/test-EDDRE/blob/main/Jenkinspipeline
+      Jenkins pipeline: https://slvdcrvcbjmas03.nfcu.net:8443/job/DeployMgmt/job/deploy-mgmt-test-org/job/test-EDDRI/job/main/
+	  
+b) NICL:
+      Code: https://github.nfcu.net/deploy-mgmt-test-org/test-NICL/blob/main/Jenkinspipeline
+	  
+b) EDDRI:
+	  Code: https://github.nfcu.net/deploy-mgmt-test-org/test-EDDRI/blob/main/Jenkinspipeline
+      Jenkins pipeline: https://slvdcrvcbjmas03.nfcu.net:8443/job/DeployMgmt/job/deploy-mgmt-test-org/job/test-EDDRI/job/main/
+
+Test Usecases
+-------------
+1) Application NOT part of Piloting - Positive testcase
+   ENABLE_BUILD_BLOCKING="" OR flag missing in Jenkinspipeline
+
+   Expected Result: Build should go without blocking/failing even in there are vulnerabilities
+   
+2) Application is part of Piloting - Enable Build Blocking
+    ENABLE_BUILDBLOCKING ="true" (non-empty string)
+	ENABLE_BUILD_BLOCKING="false"
+	ENABLE_BUILD_BLOCKING="anything"
+ 
+    a) Exists vulnerabilities, and build should fail - Positive testcase
+	   Thresholds default to:
+	      LOW_THRESHOLD=9999
+		  MED_THRESHOLD=8
+		  HIGH_THRESHOLD=0
+
+3) Exception (Marcus will mark the few vulnerabilities in CheckMarx portal as Exception)
+
+4) FalsePositive (Marcus will mark the few vulnerabilities in CheckMarx portal as Exception)
+ 
+ 
+Questions to security team:
+---------------------------
+1) The cutoff date/baseline date for CheckMarx scanning 
+   Hardcoded to "28 Nov 2023 06:00:00 GMT"
+   
+2) What thresholds should we use for piloting and production?
+   	highThreshold_default = 0
+	mediumThreshold_default = 8
+	lowThreshold_default = 9999
+	
+3) Need definitions of StateId codes (StateId value, and description) & Severity levels for documentation and better code readability
+      + Currently we mark as a net-new vulnerability if (stateId !=5 and stateId != 1) and Severity != 'Low' of a finding.
+	  
+4) Should the piloting projects be added to CheckMarx and BlackDuck?
+
+5) What is enforcement date for all projects across the enterprise?
+
+6) What is date for piloting? Does 3 applications suffice for piloting?
+
+7) Can BlackDuck and CheckMarx scan zip and archive (.ear/.war) files? 
+    For ex: ++ DataPower applications ( https://github.nfcu.net/NFCU-DataPower/PPUDP/tree/master/PPUDP ) 
+        	++ Websphere applications prebuilt .war, .ear files that won't get built in our tool. For ex: (https://github.nfcu.net/NFCU/ardsRTDaemonGUI/blob/main/assembly/build.xml)
+
+8) Will there be a grace period before enforcement enterprise wide?
+
+
+POC Applications
+================
+  + BGL (pipelineAntDa)
+  + ARIC_PAYMENT_JAVA (pipelineJavaUcd)
+  + CMED / CMDU (pipelineAntDa) - Tentative
+  
++ Believe we will use real repos and involve development team during piloting. Is it right?
+  
+ 
